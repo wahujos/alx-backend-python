@@ -9,7 +9,9 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 
 async def wait_n(n, max_delay):
-    """Documenting the function"""
+    """
+    Documenting the function
+    """
     delays = []
     tasks = [wait_random(max_delay) for _ in range(n)]
     result = await asyncio.gather(*tasks)
