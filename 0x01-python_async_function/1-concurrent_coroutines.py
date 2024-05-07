@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-documenting the module
+documenting the module listing imports
 """
 
 import asyncio
