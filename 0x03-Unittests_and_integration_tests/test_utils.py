@@ -3,8 +3,9 @@
 In this task you will write the first unit test for utils.access_nested_map.
 """
 import unittest
+from unittest.mock import Mock, patch
 from parameterized import parameterized
-from utils import access_nested_map
+from utils import access_nested_map, get_json
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -35,6 +36,32 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError) as e:
             access_nested_map(nested_map, path)
         self.assertEqual(str(e.exception), missing_key)
+
+
+class TestGetJson(unittest.TestCase):
+    """
+    class and implement the TestGetJson.test_get_json
+    method to test that utils.get_json returns the expected
+    """
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False})
+    ])
+    def test_get_json(self, test_url, test_payload):
+        """
+        Use unittest.mock.patch to patch requests.get.
+        Make sure it returns a Mock object with a json
+        method that returns test_payload which you parametrize
+        alongside the test_url that you will pass to get_json
+        with the following inputs:
+        """
+        with patch('requests.get') as m_get:
+            m_response = Mock()
+            m_response.json.return_value = test_payload
+            m_get.return_value = m_response
+            result = get_json(test_url)
+            m_get.assert_called_once_with(test_url)
+            self.assertEqual(result, test_payload)
 
 
 if __name__ == "__main__":
